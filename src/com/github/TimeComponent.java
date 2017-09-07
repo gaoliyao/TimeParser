@@ -3,9 +3,11 @@ package com.github;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.github.StringUtils.*;
+import static com.github.StringUtils.is;
+import static com.github.StringUtils.split;
 import static com.github.StringUtils.isTemporalInteger;
 import static com.github.StringUtils.stringToInteger;
+import static com.github.StringUtils.contain;
 
 /**
  * Created by mars on 9/5/17.
@@ -22,28 +24,28 @@ public class TimeComponent {
     // 8 : weekend
 
     String sentence = "";
-    String timeExpressionString = "";
+    public static String timeExpressionString = "";
 
 
     TimeComponent(String sentence){
         this.sentence = sentence;
-        timeKeywords.put(Constants.WEEKDAY, new ArrayList());
-        timeKeywords.put(Constants.WEEKEND, new ArrayList());
-        timeKeywords.put(Constants.EPOCH, new ArrayList());
-        timeKeywords.put(Constants.AMPM, new ArrayList());
-        timeKeywords.put(Constants.AT, new ArrayList());
-        timeKeywords.put(Constants.BY, new ArrayList());
-        timeKeywords.put(Constants.FUTURE, new ArrayList());
-        timeKeywords.put(Constants.PAST, new ArrayList());
-        timeKeywords.put(Constants.IN, new ArrayList());
-        timeKeywords.put(Constants.DIGIT, new ArrayList());
-        timeKeywords.put(Constants.DURATION_KEYWORD, new ArrayList());
-        timeKeywords.put(Constants.AMPM_PREV, new ArrayList());
-        timeKeywords.put(Constants.AMPM_PREV2, new ArrayList());
-        timeKeywords.put(Constants.AT_NEXT, new ArrayList());
-        timeKeywords.put(Constants.BY_NEXT, new ArrayList());
-        timeKeywords.put(Constants.IN_NEXT, new ArrayList());
-        timeKeywords.put(Constants.IN_NEXT2, new ArrayList());
+        timeKeywords.put(Constants.WEEKDAY, new ArrayList<String>());
+        timeKeywords.put(Constants.WEEKEND, new ArrayList<String>());
+        timeKeywords.put(Constants.EPOCH, new ArrayList<String>());
+        timeKeywords.put(Constants.AMPM, new ArrayList<String>());
+        timeKeywords.put(Constants.AT, new ArrayList<String>());
+        timeKeywords.put(Constants.BY, new ArrayList<String>());
+        timeKeywords.put(Constants.FUTURE, new ArrayList<String>());
+        timeKeywords.put(Constants.PAST, new ArrayList<String>());
+        timeKeywords.put(Constants.IN, new ArrayList<String>());
+        timeKeywords.put(Constants.DIGIT, new ArrayList<String>());
+        timeKeywords.put(Constants.DURATION_KEYWORD, new ArrayList<String>());
+        timeKeywords.put(Constants.AMPM_PREV, new ArrayList<String>());
+        timeKeywords.put(Constants.AMPM_PREV2, new ArrayList<String>());
+        timeKeywords.put(Constants.AT_NEXT, new ArrayList<String>());
+        timeKeywords.put(Constants.BY_NEXT, new ArrayList<String>());
+        timeKeywords.put(Constants.IN_NEXT, new ArrayList<String>());
+        timeKeywords.put(Constants.IN_NEXT2, new ArrayList<String>());
     }
 
     public void extractTemporalKeywords(String sentence) {
@@ -97,6 +99,7 @@ public class TimeComponent {
                     addTimeKeyword(Constants.BY_NEXT, wordList.get(i + 1));
                 }
             } else if (isFutureWord(wordList.get(i))) {
+                System.out.println(Constants.FUTURE +" "+ wordList.get(i));
                 addTimeKeyword(Constants.FUTURE, wordList.get(i));
                 if (i + 1 <= wordList.size() - 1) {
                     if (isDuration(wordList.get(i + 1)))
@@ -143,20 +146,16 @@ public class TimeComponent {
     }
     public static int colonCount;
     public static String[] colonPosition = {"", "", "", "", "", ""};
-    public HashMap<String, ArrayList<String>> timeKeywords = new HashMap<>();
+    public static HashMap<String, ArrayList<String>> timeKeywords = new HashMap<>();
 
 
 
-    private void addTimeKeyword(String key, String value){
-        if (!timeKeywords.containsKey(key)) {
-            ArrayList<String> values = new ArrayList<>();
-            values.add(value);
-            timeKeywords.put(key, values);
-        }
-        else {
-            timeKeywords.get(key).add(value);
-        }
+    public void addTimeKeyword(String key, String value){
+        System.out.println(key + value);
         timeExpressionString = timeExpressionString + value + " ";
+        System.out.println("TES" + timeExpressionString);
+        ArrayList<String> keywordList = timeKeywords.get(key);
+        keywordList.add(value);
     }
 
 
@@ -250,7 +249,7 @@ public class TimeComponent {
 
     public boolean isAM() {
         if (timeKeywords.containsKey(Constants.AMPM)){
-            String str = (String) timeKeywords.get(Constants.AMPM).get(0);
+            String str = timeKeywords.get(Constants.AMPM).get(0);
             return str.equals("a.m.") || str.equals("am");
         }
         return false;
@@ -258,7 +257,7 @@ public class TimeComponent {
 
     public boolean isPM() {
         if (timeKeywords.containsKey(Constants.AMPM)){
-            String str = (String) timeKeywords.get(Constants.AMPM).get(0);
+            String str = timeKeywords.get(Constants.AMPM).get(0);
             return str.equals("p.m.") || str.equals("pm");
         }
         return false;

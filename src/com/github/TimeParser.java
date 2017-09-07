@@ -512,7 +512,6 @@ public class TimeParser {
         message = normalize(message);
         timeComponent = new TimeComponent(message);
 
-
         try {
 
             timeComponent.extractTemporalKeywords(message);
