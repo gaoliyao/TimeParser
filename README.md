@@ -18,7 +18,10 @@ No operations
 eg: Let's meet today.
 
 ### 10010
-Add one day. 
+Add one day.
+```java
+day += 1;
+```
 
 eg: Let's meet tomorrow.
 
