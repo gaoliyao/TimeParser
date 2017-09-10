@@ -11,3 +11,15 @@
 |next + [year]|next year|10024|
 |after|after|10030|
 |after + [time]|after tmrw|10031|
+
+### 10000
+No operations
+
+eg: Let's meet today.
+
+### 10010
+Add one day. 
+
+eg: Let's meet tomorrow.
+
+### 10020
