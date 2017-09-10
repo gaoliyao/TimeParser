@@ -110,7 +110,7 @@ public class TimeParser {
             } else {
                 // let's meet at 10 tonight
 
-                int time = Integer.parseInt((String)timeComponent.timeKeywords.get("digital").get(0));
+                int time = Integer.parseInt((String)timeComponent.timeKeywords.get(Constants.DIGIT).get(0));
                 if (time < 12) {
                     hour = time;
                     hour += 12;
@@ -211,14 +211,9 @@ public class TimeParser {
     }
 
     private void doAtNext() {
-        int hour_real = Integer.parseInt((String)timeComponent.timeKeywords.get(Constants.AT_NEXT).get(0));
-        if (hour > hour_real) {
-            hour = hour_real + 12;
-        } else {
-            hour = hour_real;
-        }
-        minute = 0;
-        second = 0;
+        String hour_real = timeComponent.timeKeywords.get(Constants.AT_NEXT).get(0);
+        setTimeWithDight(hour_real);
+
     }
 
     private void doByNext() {
@@ -235,38 +230,66 @@ public class TimeParser {
     private void doAmPmNoColons() {
         // Three cases: 3pm, 10am, 430pm, 1030 pm
         String ampmPrev = timeComponent.timeKeywords.get(Constants.AMPM_PREV).get(0);
+        setTimeWithDight(ampmPrev);
+        if (timeComponent.isPM()) {
+            hour += 12;
+        }
+        if (!timeComponent.timeKeywords.get(Constants.AMPM_PREV2).isEmpty()) {
+            String ampmPrev2 = (String)timeComponent.timeKeywords.get(Constants.AMPM_PREV2).get(0);
+            setTimeWithDight(ampmPrev2);
+        }
+    }
+
+    private void setTimeWithDight(String ampmPrev) {
         switch (ampmPrev.length()) {
             case 1:
-                /*hour = Integer.parseInt(amPmPrev);
-                minute = 0;
-                second = 0;
-                break;*/
-
-            case 2:
-                hour = Integer.parseInt(ampmPrev);
+                if(hour > Integer.parseInt(ampmPrev)) {
+                    hour = Integer.parseInt(ampmPrev) + 12;
+                }
+                else {
+                    hour = Integer.parseInt(ampmPrev);
+                }
                 minute = 0;
                 second = 0;
                 break;
 
+            case 2:
+                if(hour > Integer.parseInt(ampmPrev)) {
+                    hour = Integer.parseInt(ampmPrev) + 12;
+                }
+                else {
+                    hour = Integer.parseInt(ampmPrev);
+                }                minute = 0;
+                second = 0;
+                break;
+
             case 3:
-               /*
-                if (time % 100 < 60) {
-                    hour = time / 100;
-                    minute = time % 100;
+
+                if (Integer.parseInt(ampmPrev) % 100 < 60) {
+                    if(hour > Integer.parseInt(ampmPrev) / 100) {
+                        hour = (Integer.parseInt(ampmPrev) / 100) + 12;
+                    }
+                    else {
+                        hour = Integer.parseInt(ampmPrev) / 100;
+                    }
+                    minute = Integer.parseInt(ampmPrev) % 100;
                     second = 0;
                 } else {
                     hour = 0;
                     minute = 0;
                     second = 0;
                 }
-                break;*/
+                break;
 
             case 4:
                 int time = Integer.parseInt(ampmPrev);
-                time = Integer.parseInt(ampmPrev);
                 if (time % 100 < 60) {
-                    hour = time / 100;
-                    minute = time % 100;
+                    if(hour > Integer.parseInt(ampmPrev) / 100) {
+                        hour = (Integer.parseInt(ampmPrev) / 100) + 12;
+                    }
+                    else {
+                        hour = Integer.parseInt(ampmPrev) / 100;
+                    }                    minute = time % 100;
                     second = 0;
                 } else {
                     hour = 0;
@@ -277,39 +300,7 @@ public class TimeParser {
             default:
                 break;
         }
-        if (timeComponent.isPM()) {
-            hour += 12;
-        }
-        if (!timeComponent.timeKeywords.get(Constants.AMPM_PREV2).isEmpty()) {
-            String ampmPrev2 = (String)timeComponent.timeKeywords.get(Constants.AMPM_PREV2).get(0);
-            switch (ampmPrev2.length()) {
-                case 1:
-                case 2:
-                    hour2 = Integer.parseInt(ampmPrev2);
-                    minute2 = 0;
-                    second2 = 0;
-                    break;
-
-                case 3:
-                case 4:
-                    int time = Integer.parseInt(ampmPrev2);
-                    if (time % 100 < 60) {
-                        hour2 = time / 100;
-                        minute2 = time % 100;
-                        second2 = 0;
-                    }
-                    else {
-                        hour2 = 0;
-                        minute2 = 0;
-                        second2 = 0;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
     }
-
 
 
     private void doOneColon() {
@@ -496,10 +487,10 @@ public class TimeParser {
 
     private void doInNext() {
         if (!timeComponent.timeKeywords.get(Constants.IN_NEXT).isEmpty() && !timeComponent.timeKeywords.get(Constants.IN_NEXT2).isEmpty()) {
-            if (timeComponent.timeKeywords.get(Constants.IN_NEXT2).contains("m")) {
-                minute = minute + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT)));
-            } else if (timeComponent.timeKeywords.get(Constants.IN_NEXT2).contains("h")) {
-                hour = hour + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT)));
+            if (timeComponent.timeKeywords.get(Constants.IN_NEXT2).get(0).contains("m")) {
+                minute = minute + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT).get(0)));
+            } else if (timeComponent.timeKeywords.get(Constants.IN_NEXT2).get(0).contains("h")) {
+                hour = hour + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT).get(0)));
             }
         }
     }

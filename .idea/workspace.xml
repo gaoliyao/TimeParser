@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="de0ac651-c27e-4ee6-9fa7-1908af4a86be" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeParser_newnew/com/github/Main.class" afterPath="$PROJECT_DIR$/out/production/TimeParser_newnew/com/github/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeParser_newnew/com/github/TimeParser.class" afterPath="$PROJECT_DIR$/out/production/TimeParser_newnew/com/github/TimeParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/Main.java" afterPath="$PROJECT_DIR$/src/com/github/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/TimeComponent.java" afterPath="$PROJECT_DIR$/src/com/github/TimeComponent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/TimeParser.java" afterPath="$PROJECT_DIR$/src/com/github/TimeParser.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -23,8 +19,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/github/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="46" lean-forward="true" selection-start-line="9" selection-start-column="46" selection-end-line="9" selection-end-column="46" />
+            <state relative-caret-position="180">
+              <caret line="12" column="39" lean-forward="false" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -32,11 +28,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeParser.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TimeParser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/github/TimeParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="518" column="0" lean-forward="false" selection-start-line="518" selection-start-column="0" selection-end-line="518" selection-end-column="0" />
+            <state relative-caret-position="152">
+              <caret line="112" column="98" lean-forward="false" selection-start-line="112" selection-start-column="98" selection-end-line="112" selection-end-column="98" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeComponent.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TimeComponent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/github/TimeComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1215">
-              <caret line="81" column="28" lean-forward="true" selection-start-line="81" selection-start-column="28" selection-end-line="81" selection-end-column="28" />
+            <state relative-caret-position="174">
+              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#9215#9216#0" expanded="true" />
@@ -90,6 +86,9 @@
       <find>Sys</find>
       <find>this</find>
       <find>duration</find>
+      <find>inNe</find>
+      <find>atnex</find>
+      <find>2400</find>
     </findStrings>
     <replaceStrings>
       <replace>public</replace>
@@ -109,9 +108,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/github/StringUtils.java" />
         <option value="$PROJECT_DIR$/src/com/github/Constants.java" />
+        <option value="$PROJECT_DIR$/src/com/github/TimeComponent.java" />
         <option value="$PROJECT_DIR$/src/com/github/Main.java" />
         <option value="$PROJECT_DIR$/src/com/github/TimeParser.java" />
-        <option value="$PROJECT_DIR$/src/com/github/TimeComponent.java" />
       </list>
     </option>
   </component>
@@ -622,15 +621,16 @@
       <workItem from="1504843699445" duration="1134000" />
       <workItem from="1505010977409" duration="1831000" />
       <workItem from="1505017080048" duration="65000" />
-      <workItem from="1505017160387" duration="2583000" />
+      <workItem from="1505017160387" duration="4819000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17310000" />
+    <option name="totallyTimeSpent" value="19546000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -674,36 +674,36 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>510</line>
+          <line>501</line>
           <properties />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>511</line>
+          <line>502</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>513</line>
+          <line>504</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>514</line>
+          <line>505</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>518</line>
+          <line>509</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>521</line>
+          <line>512</line>
           <properties />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
@@ -727,73 +727,73 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>359</line>
+          <line>350</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>362</line>
+          <line>353</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>368</line>
+          <line>359</line>
           <properties />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>364</line>
+          <line>355</line>
           <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>371</line>
+          <line>362</line>
           <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>375</line>
+          <line>366</line>
           <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>378</line>
+          <line>369</line>
           <properties />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>381</line>
+          <line>372</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>386</line>
+          <line>377</line>
           <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>387</line>
+          <line>378</line>
           <properties />
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>390</line>
+          <line>381</line>
           <properties />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>394</line>
+          <line>385</line>
           <properties />
           <option name="timeStamp" value="23" />
         </line-breakpoint>
@@ -820,24 +820,6 @@
           <line>161</line>
           <properties />
           <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>236</line>
-          <properties />
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>237</line>
-          <properties />
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
-          <line>238</line>
-          <properties />
-          <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/github/TimeComponent.java</url>
@@ -881,8 +863,32 @@
           <properties />
           <option name="timeStamp" value="38" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
+          <line>165</line>
+          <properties />
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
+          <line>213</line>
+          <properties />
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
+          <line>246</line>
+          <properties />
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/github/TimeParser.java</url>
+          <line>249</line>
+          <properties />
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="39" />
+      <option name="time" value="47" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1211,18 +1217,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="46" lean-forward="true" selection-start-line="9" selection-start-column="46" selection-end-line="9" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/TimeParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="518" column="0" lean-forward="false" selection-start-line="518" selection-start-column="0" selection-end-line="518" selection-end-column="0" />
+        <state relative-caret-position="180">
+          <caret line="12" column="39" lean-forward="false" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1231,12 +1227,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/TimeComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="81" column="28" lean-forward="true" selection-start-line="81" selection-start-column="28" selection-end-line="81" selection-end-column="28" />
+        <state relative-caret-position="174">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#9215#9216#0" expanded="true" />
             <element signature="e#9283#9284#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/TimeParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="112" column="98" lean-forward="false" selection-start-line="112" selection-start-column="98" selection-end-line="112" selection-end-column="98" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
