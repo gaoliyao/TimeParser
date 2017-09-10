@@ -234,7 +234,7 @@ public class TimeParser {
 
     private void doAmPmNoColons() {
         // Three cases: 3pm, 10am, 430pm, 1030 pm
-        String ampmPrev = (String)timeComponent.timeKeywords.get(Constants.AMPM_PREV).get(0);
+        String ampmPrev = timeComponent.timeKeywords.get(Constants.AMPM_PREV).get(0);
         switch (ampmPrev.length()) {
             case 1:
                 /*hour = Integer.parseInt(amPmPrev);
@@ -358,8 +358,10 @@ public class TimeParser {
 
     private void doFuture() {
         String futureFirst = (String)timeComponent.timeKeywords.get(Constants.FUTURE).get(0);
-        String futureSecond = (String) timeComponent.timeKeywords.get(Constants.FUTURE).get(1);
-        String duration = (String)timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).get(0);
+        String futureSecond = "";
+        if(timeComponent.timeKeywords.get(Constants.FUTURE).size() > 1) {
+            futureSecond = (String) timeComponent.timeKeywords.get(Constants.FUTURE).get(1);
+        }
         if (futureFirst.equals("next") && (timeComponent.containsWeekday() || timeComponent.containsWeekend())) {
             day = day + 7;
             day2 = day2 + 7;
@@ -510,11 +512,13 @@ public class TimeParser {
         Calendar time2 = Calendar.getInstance();
 
         message = normalize(message);
-        timeComponent = new TimeComponent(message);
+        timeComponent = new TimeComponent();
 
         try {
 
             timeComponent.extractTemporalKeywords(message);
+            System.out.println("!!!" + timeComponent.timeExpressionString);
+            System.out.println("!!!" + timeComponent.timeKeywords);
             getDateAndTime();
 
         } catch (Exception ignored) {
@@ -542,7 +546,7 @@ public class TimeParser {
         } else {
             //ZJ - to print 2 time like from 12:00 to 13:00
             if (timeComponent.timeKeywords.get(Constants.AMPM_PREV2).isEmpty() || (timeComponent.timeKeywords.get(Constants.DIGIT).size() > 1 && !timeComponent.containsColon()) || timeComponent.timeKeywords.get(Constants.DIGIT).size() > 2)
-                timeComponent.timeKeywords.get(Constants.DIGIT).clear();
+                ;//timeComponent.timeKeywords.get(Constants.DIGIT).clear();
             return new long[]{time.getTimeInMillis(), time2.getTimeInMillis()};
         }
     }

@@ -27,8 +27,7 @@ public class TimeComponent {
     public static String timeExpressionString = "";
 
 
-    TimeComponent(String sentence){
-        this.sentence = sentence;
+    TimeComponent(){
         timeKeywords.put(Constants.WEEKDAY, new ArrayList<String>());
         timeKeywords.put(Constants.WEEKEND, new ArrayList<String>());
         timeKeywords.put(Constants.EPOCH, new ArrayList<String>());
@@ -49,7 +48,7 @@ public class TimeComponent {
     }
 
     public void extractTemporalKeywords(String sentence) {
-
+        this.sentence = sentence;
         if (sentence.isEmpty())
             return;
 
@@ -79,8 +78,8 @@ public class TimeComponent {
                 if (isTemporalInteger(wordList.get(i - 1))) {
                     addTimeKeyword(Constants.AMPM, wordList.get(i));
                     //AmPMKeywords.add(wordList.get(i));
-                    if (Integer.parseInt(wordList.get(i - 1)) < 1200) {
-                        if (!timeKeywords.containsKey(Constants.AMPM_PREV)) {
+                    if (Integer.parseInt(wordList.get(i - 1)) < 2400) {
+                        if (timeKeywords.get(Constants.AMPM_PREV).isEmpty()) {
                             addTimeKeyword(Constants.AMPM_PREV, wordList.get(i - 1));
                         } else {
                             addTimeKeyword(Constants.AMPM_PREV2, wordList.get(i - 1));
