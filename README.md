@@ -2,8 +2,8 @@
 ## Future
 |Template|Example|Code|
 |--------|-------|----|
-|<today>|today|10000|
-|<tomorrow>|tmrw|10010|
+|[today]|today|10000|
+|tomorrow|tmrw|10010|
 |next + <weekdays>|next monday|10020|
 |next + <day>|next day|10021|
 |next + <week>|next day|10022|
