@@ -30,8 +30,12 @@ Let's suppose that today is 28 July, 2017 18:00:00 (Thursday)
 
 # Sample Code:
 
-<img src="https://github.com/gaoliyao/TimeParser_old/blob/master/JavaSampleCode.png" width="75%" height="75%">
-
+```java
+String sentence = "Let's meet at 5pm this Saturday!"
+TimeParser tp = new TimeParser();
+long[] recognizedTime = tp.GetInput(sentence);
+//[1501776000943, 1504022399958]
+```
 
 ## Future
 |Template|Example|Code|
