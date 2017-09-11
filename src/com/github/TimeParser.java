@@ -11,34 +11,34 @@ import static com.github.StringUtils.*;
  */
 public class TimeParser {
     // FROM 00:00 TO 23:59
-    private int day;
-    private int hour;
-    private int minute;
-    private int second;
+    private int startTimeDay;
+    private int startTimeHour;
+    private int startTimeMinute;
+    private int startTimeSecond;
     private int weekday;
 
-    private int day2;
-    private int hour2;
-    private int minute2;
-    private int second2;
-    private int weekday2;
+    private int endTimeDay;
+    private int endTimeHour;
+    private int endTimeMinute;
+    private int endTimeSecond;
+    private int weekendTimeDay;
 
     private static boolean hasCalDigit = false;
 
     public TimeComponent timeComponent;
 
     TimeParser() {
-        day = 0;
-        hour = 0;
-        minute = 0;
-        second = 0;
+        startTimeDay = 0;
+        startTimeHour = 0;
+        startTimeMinute = 0;
+        startTimeSecond = 0;
         weekday = 0;
 
-        day2 = 0;
-        hour2 = 0;
-        minute2 = 0;
-        second2 = 0;
-        weekday2 = 0;
+        endTimeDay = 0;
+        endTimeHour = 0;
+        endTimeMinute = 0;
+        endTimeSecond = 0;
+        weekendTimeDay = 0;
 
         hasCalDigit = false;
     }
@@ -100,61 +100,61 @@ public class TimeParser {
                 || epoch.equals("tonight")
                 || epoch.equals("dinner")) {
             if (!timeComponent.containsTemporalDigits()) {
-                hour = 18;
-                minute = 0;
-                second = 0;
+                startTimeHour = 18;
+                startTimeMinute = 0;
+                startTimeSecond = 0;
 
-                hour2 = 23;
-                minute2 = 59;
-                second = 0;
+                endTimeHour = 23;
+                endTimeMinute = 59;
+                startTimeSecond = 0;
             } else {
                 // let's meet at 10 tonight
 
                 int time = Integer.parseInt((String)timeComponent.timeKeywords.get(Constants.DIGIT).get(0));
                 if (time < 12) {
-                    hour = time;
-                    hour += 12;
+                    startTimeHour = time;
+                    startTimeHour += 12;
                 }
-                minute = 0;
-                second = 0;
+                startTimeMinute = 0;
+                startTimeSecond = 0;
                 hasCalDigit = true;
             }
 
         } else if (epoch.equals("morning")) {
             if (!timeComponent.containsTemporalDigits()) {
-                hour = 6;
-                minute = 0;
-                second = 0;
+                startTimeHour = 6;
+                startTimeMinute = 0;
+                startTimeSecond = 0;
 
-                hour2 = 11;
-                minute2 = 59;
-                second2 = 0;
+                endTimeHour = 11;
+                endTimeMinute = 59;
+                endTimeSecond = 0;
             } else {
-                hour = 10;
-                minute = 0;
-                second = 0;
+                startTimeHour = 10;
+                startTimeMinute = 0;
+                startTimeSecond = 0;
             }
 
         } else if (epoch.equals("noon")
                 || epoch.contains("lunch")) {
-            hour = 12;
-            minute = 0;
-            second = 0;
+            startTimeHour = 12;
+            startTimeMinute = 0;
+            startTimeSecond = 0;
 
         } else if (epoch.equals("afternoon")) {
-            hour = 12;
-            minute = 0;
-            second = 0;
+            startTimeHour = 12;
+            startTimeMinute = 0;
+            startTimeSecond = 0;
 
-            hour2 = 17;
-            minute2 = 59;
-            second2 = 0;
+            endTimeHour = 17;
+            endTimeMinute = 59;
+            endTimeSecond = 0;
         }
 
     }
 
     // Have Digits, but no colons:
-    // "3pm", "at 6", "in 20 minutes"
+    // "3pm", "at 6", "in 20 startTimeMinutes"
     private void doNoColons() {
 
         if (!timeComponent.timeKeywords.get(Constants.AMPM).isEmpty()) {
@@ -169,36 +169,36 @@ public class TimeParser {
                     doByNext();
                 }
 
-                // "in 20 minutes"
+                // "in 20 startTimeMinutes"
                 else if (!timeComponent.timeKeywords.get(Constants.IN).isEmpty()) {
                     doInNext();
                 } else {
                     if (!timeComponent.timeKeywords.get(Constants.FUTURE).isEmpty() || !timeComponent.timeKeywords.get(Constants.PAST).isEmpty() || !timeComponent.timeKeywords.get(Constants.WEEKDAY).isEmpty()) {
                         int time = Integer.parseInt((String) timeComponent.timeKeywords.get(Constants.DIGIT).get(0));
                         if (time < 24) {
-                            hour = time;
-                            minute = 0;
-                            second = 0;
+                            startTimeHour = time;
+                            startTimeMinute = 0;
+                            startTimeSecond = 0;
                             if (time > 10 && time < 12) {
-                                hour += 12;
+                                startTimeHour += 12;
                             }
                         } else if (time % 100 < 60) {
 
-                            hour = time / 100;
-                            minute = time % 100;
-                            second = 0;
+                            startTimeHour = time / 100;
+                            startTimeMinute = time % 100;
+                            startTimeSecond = 0;
                         }
                         if (timeComponent.timeKeywords.get(Constants.DIGIT).size() > 1) {
                             int time2 = Integer.parseInt((String) timeComponent.timeKeywords.get(Constants.DIGIT).get(1));
                             if (time2 < 24) {
-                                hour2 = time2;
-                                minute2 = 0;
-                                second2 = 0;
+                                endTimeHour = time2;
+                                endTimeMinute = 0;
+                                endTimeSecond = 0;
 
                             } else if (time2 % 100 < 60) {
-                                hour2 = time2 / 100;
-                                minute2 = time2 % 100;
-                                second2 = 0;
+                                endTimeHour = time2 / 100;
+                                endTimeMinute = time2 % 100;
+                                endTimeSecond = 0;
                             }
                         }
                     } else {
@@ -217,14 +217,14 @@ public class TimeParser {
     }
 
     private void doByNext() {
-        int hour_real = Integer.parseInt((String)timeComponent.timeKeywords.get(Constants.BY_NEXT).get(0));
-        if (hour > hour_real) {
-            hour = hour_real + 12;
+        int startTimeHour_real = Integer.parseInt((String)timeComponent.timeKeywords.get(Constants.BY_NEXT).get(0));
+        if (startTimeHour > startTimeHour_real) {
+            startTimeHour = startTimeHour_real + 12;
         } else {
-            hour = hour_real;
+            startTimeHour = startTimeHour_real;
         }
-        minute = 0;
-        second = 0;
+        startTimeMinute = 0;
+        startTimeSecond = 0;
     }
 
     private void doAmPmNoColons() {
@@ -232,7 +232,7 @@ public class TimeParser {
         String ampmPrev = timeComponent.timeKeywords.get(Constants.AMPM_PREV).get(0);
         setTimeWithDight(ampmPrev);
         if (timeComponent.isPM()) {
-            hour += 12;
+            startTimeHour += 12;
         }
         if (!timeComponent.timeKeywords.get(Constants.AMPM_PREV2).isEmpty()) {
             String ampmPrev2 = (String)timeComponent.timeKeywords.get(Constants.AMPM_PREV2).get(0);
@@ -243,58 +243,58 @@ public class TimeParser {
     private void setTimeWithDight(String ampmPrev) {
         switch (ampmPrev.length()) {
             case 1:
-                if(hour > Integer.parseInt(ampmPrev)) {
-                    hour = Integer.parseInt(ampmPrev) + 12;
+                if(startTimeHour > Integer.parseInt(ampmPrev)) {
+                    startTimeHour = Integer.parseInt(ampmPrev) + 12;
                 }
                 else {
-                    hour = Integer.parseInt(ampmPrev);
+                    startTimeHour = Integer.parseInt(ampmPrev);
                 }
-                minute = 0;
-                second = 0;
+                startTimeMinute = 0;
+                startTimeSecond = 0;
                 break;
 
             case 2:
-                if(hour > Integer.parseInt(ampmPrev)) {
-                    hour = Integer.parseInt(ampmPrev) + 12;
+                if(startTimeHour > Integer.parseInt(ampmPrev)) {
+                    startTimeHour = Integer.parseInt(ampmPrev) + 12;
                 }
                 else {
-                    hour = Integer.parseInt(ampmPrev);
-                }                minute = 0;
-                second = 0;
+                    startTimeHour = Integer.parseInt(ampmPrev);
+                }                startTimeMinute = 0;
+                startTimeSecond = 0;
                 break;
 
             case 3:
 
                 if (Integer.parseInt(ampmPrev) % 100 < 60) {
-                    if(hour > Integer.parseInt(ampmPrev) / 100) {
-                        hour = (Integer.parseInt(ampmPrev) / 100) + 12;
+                    if(startTimeHour > Integer.parseInt(ampmPrev) / 100) {
+                        startTimeHour = (Integer.parseInt(ampmPrev) / 100) + 12;
                     }
                     else {
-                        hour = Integer.parseInt(ampmPrev) / 100;
+                        startTimeHour = Integer.parseInt(ampmPrev) / 100;
                     }
-                    minute = Integer.parseInt(ampmPrev) % 100;
-                    second = 0;
+                    startTimeMinute = Integer.parseInt(ampmPrev) % 100;
+                    startTimeSecond = 0;
                 } else {
-                    hour = 0;
-                    minute = 0;
-                    second = 0;
+                    startTimeHour = 0;
+                    startTimeMinute = 0;
+                    startTimeSecond = 0;
                 }
                 break;
 
             case 4:
                 int time = Integer.parseInt(ampmPrev);
                 if (time % 100 < 60) {
-                    if(hour > Integer.parseInt(ampmPrev) / 100) {
-                        hour = (Integer.parseInt(ampmPrev) / 100) + 12;
+                    if(startTimeHour > Integer.parseInt(ampmPrev) / 100) {
+                        startTimeHour = (Integer.parseInt(ampmPrev) / 100) + 12;
                     }
                     else {
-                        hour = Integer.parseInt(ampmPrev) / 100;
-                    }                    minute = time % 100;
-                    second = 0;
+                        startTimeHour = Integer.parseInt(ampmPrev) / 100;
+                    }                    startTimeMinute = time % 100;
+                    startTimeSecond = 0;
                 } else {
-                    hour = 0;
-                    minute = 0;
-                    second = 0;
+                    startTimeHour = 0;
+                    startTimeMinute = 0;
+                    startTimeSecond = 0;
                 }
                 break;
             default:
@@ -304,47 +304,47 @@ public class TimeParser {
 
 
     private void doOneColon() {
-        hour = Integer.parseInt(timeComponent.colonPosition[0]);
-        minute = Integer.parseInt(timeComponent.colonPosition[1]);
-        second = 0;
+        startTimeHour = Integer.parseInt(timeComponent.colonPosition[0]);
+        startTimeMinute = Integer.parseInt(timeComponent.colonPosition[1]);
+        startTimeSecond = 0;
 
         if (timeComponent.containsAmPm()) {
             if (timeComponent.isPM())
-                hour = hour + 12;
+                startTimeHour = startTimeHour + 12;
         } else if (timeComponent.containsEpoch()) {
             String epoch = (String)timeComponent.timeKeywords.get(Constants.EPOCH).get(0);
             epoch = epoch.toLowerCase();
             if (epoch.equals("tonight")
                     || epoch.equals("evening")
                     || epoch.equals("night")) {
-                hour = hour + 12;
+                startTimeHour = startTimeHour + 12;
             }
         } else if (timeComponent.timeKeywords.get(Constants.DIGIT).size() > 2) {
-//            Log.e("7",hour2+"");
-            hour2 = Integer.parseInt((String) timeComponent.timeKeywords.get(Constants.DIGIT).get(2));
-            minute2 = 0;
-            second2 = 0;
+//            Log.e("7",endTimeHour+"");
+            endTimeHour = Integer.parseInt((String) timeComponent.timeKeywords.get(Constants.DIGIT).get(2));
+            endTimeMinute = 0;
+            endTimeSecond = 0;
         }
     }
 
     private void doTwoColons() {
-        hour = Integer.parseInt(timeComponent.colonPosition[0]);
-        minute = Integer.parseInt(timeComponent.colonPosition[1]);
-        second = 0;
+        startTimeHour = Integer.parseInt(timeComponent.colonPosition[0]);
+        startTimeMinute = Integer.parseInt(timeComponent.colonPosition[1]);
+        startTimeSecond = 0;
 //        Log.e("set",Integer.parseInt(colonPosition[2]));
-        hour2 = Integer.parseInt(timeComponent.colonPosition[2]);
-        minute2 = Integer.parseInt(timeComponent.colonPosition[3]);
-        second2 = 0;
+        endTimeHour = Integer.parseInt(timeComponent.colonPosition[2]);
+        endTimeMinute = Integer.parseInt(timeComponent.colonPosition[3]);
+        endTimeSecond = 0;
     }
 
     private void setDayHourMinuteSeconds() {
-        hour = 0;
-        minute = 0;
-        second = 0;
+        startTimeHour = 0;
+        startTimeMinute = 0;
+        startTimeSecond = 0;
 
-        hour2 = 23;
-        minute2 = 59;
-        second2 = 59;
+        endTimeHour = 23;
+        endTimeMinute = 59;
+        endTimeSecond = 59;
     }
 
     private void doFuture() {
@@ -354,38 +354,38 @@ public class TimeParser {
             futureSecond = (String) timeComponent.timeKeywords.get(Constants.FUTURE).get(1);
         }
         if (futureFirst.equals("next") && (timeComponent.containsWeekday() || timeComponent.containsWeekend())) {
-            day = day + 7;
-            day2 = day2 + 7;
+            startTimeDay = startTimeDay + 7;
+            endTimeDay = endTimeDay + 7;
 
         } else if (futureFirst.equals("tomorrow") || futureFirst.equals("tmw") || futureFirst.equals("tmrw")) {
-            day = day + 1;
-            day2 = day2 + 1;
+            startTimeDay = startTimeDay + 1;
+            endTimeDay = endTimeDay + 1;
         } else if (futureFirst.equals("next") && timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).size() != 0) {
             if (timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).get(0).equals("day")) {
-                day = day + 1;
-                day2 = day2 + 1;
+                startTimeDay = startTimeDay + 1;
+                endTimeDay = endTimeDay + 1;
             } else if (timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).get(0).equals("week")) {
-                day = day + 7 - weekday;
-                day2 = day2 + 14 - weekday2;
+                startTimeDay = startTimeDay + 7 - weekday;
+                endTimeDay = endTimeDay + 14 - weekendTimeDay;
             } else if (timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).get(0).equals("month")) {
-                day = 30;
-                day2 = 61;
+                startTimeDay = 30;
+                endTimeDay = 61;
             } else if (timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).get(0).equals("year")) {
-                day = 365 - day;
-                day2 = 730 - day2;
+                startTimeDay = 365 - startTimeDay;
+                endTimeDay = 730 - endTimeDay;
             }
 
         } else if (futureFirst.equals("after")) {
             if (timeComponent.timeKeywords.get(Constants.FUTURE).size() > 1 && (futureSecond.equals("tomorrow") || futureSecond.equals("tmw") || futureSecond.equals("tmrw"))) {
-                day = day + 2;
-                day2 = day2 + 2;
+                startTimeDay = startTimeDay + 2;
+                endTimeDay = endTimeDay + 2;
             } else {
-                day = day + 1;
-                day2 = day2 + 1;
+                startTimeDay = startTimeDay + 1;
+                endTimeDay = endTimeDay + 1;
             }
         } else if (futureFirst.equals("today")) {
-            day = day;
-            day2 = day2;
+            startTimeDay = startTimeDay;
+            endTimeDay = endTimeDay;
         }
         // This will be overwritten if there are digits in the end.
         setDayHourMinuteSeconds();
@@ -394,28 +394,28 @@ public class TimeParser {
     private void doPast() {
         String past = (String) timeComponent.timeKeywords.get(Constants.PAST).get(0);
         if (past.equals("last") && (timeComponent.containsWeekday() || timeComponent.containsWeekend())) {
-            day = day - 7;
-            day2 = day2 - 7;
+            startTimeDay = startTimeDay - 7;
+            endTimeDay = endTimeDay - 7;
         } else if (past.equals("yesterday")) {
-            day = day - 1;
-            day2 = day2 - 1;
+            startTimeDay = startTimeDay - 1;
+            endTimeDay = endTimeDay - 1;
         } else if (past.equals("last") && timeComponent.containsEpoch()) {
-            day = day - 1;
-            day2 = day2 - 1;
+            startTimeDay = startTimeDay - 1;
+            endTimeDay = endTimeDay - 1;
         } else if (past.equals("last") && timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).size() != 0) {
             String duration = (String) timeComponent.timeKeywords.get(Constants.DURATION_KEYWORD).get(0);
             if (duration.equals("day")) {
-                day = day - 1;
-                day2 = day2 - 1;
+                startTimeDay = startTimeDay - 1;
+                endTimeDay = endTimeDay - 1;
             } else if (duration.equals("week")) {
-                day = day - weekday - 7;
-                day2 = day2 - weekday2;
+                startTimeDay = startTimeDay - weekday - 7;
+                endTimeDay = endTimeDay - weekendTimeDay;
             } else if (duration.equals("month")) {
-                day = -31;
-                day2 = -1;
+                startTimeDay = -31;
+                endTimeDay = -1;
             } else if (duration.equals("year")) {
-                day = -366 - day;
-                day2 = -1 - day2;
+                startTimeDay = -366 - startTimeDay;
+                endTimeDay = -1 - endTimeDay;
             }
         }
         //day before yesterday case
@@ -423,11 +423,11 @@ public class TimeParser {
             if (timeComponent.timeKeywords.get(Constants.PAST).size() > 1) {
                 String pastSecond = (String) timeComponent.timeKeywords.get(Constants.PAST).get(1);
                 if (pastSecond.equals("yesterday")) {
-                    day = day - 2;
-                    day2 = day2 - 2;
+                    startTimeDay = startTimeDay - 2;
+                    endTimeDay = endTimeDay - 2;
                 } else {
-                    day = day - 1;
-                    day2 = day2 - 1;
+                    startTimeDay = startTimeDay - 1;
+                    endTimeDay = endTimeDay - 1;
                 }
             }
         }
@@ -439,17 +439,17 @@ public class TimeParser {
     private void doWeekend() {
         if (timeComponent.timeKeywords.get(Constants.WEEKEND).size() == 1) {
             int weekday_real = 6;
-            day2 = day2 + weekday_real - weekday + 1;
+            endTimeDay = endTimeDay + weekday_real - weekday + 1;
             if (weekday_real >= weekday) {
-                day = day + weekday_real - weekday;
+                startTimeDay = startTimeDay + weekday_real - weekday;
             } else {
-                day = day + 7 - weekday + weekday_real;
+                startTimeDay = startTimeDay + 7 - weekday + weekday_real;
                 if (timeComponent.timeKeywords.get(Constants.FUTURE).contains("next")) {
-                    day = day - 7;
-                    day2 = day2 - 7;
+                    startTimeDay = startTimeDay - 7;
+                    endTimeDay = endTimeDay - 7;
                 } else if (timeComponent.timeKeywords.get(Constants.PAST).contains("last")) {
-                    day = day + 7;
-                    day2 = day2 + 7;
+                    startTimeDay = startTimeDay + 7;
+                    endTimeDay = endTimeDay + 7;
                 }
             }
 
@@ -464,14 +464,14 @@ public class TimeParser {
             int weekday_real = weekdayToInteger(timeComponent.timeKeywords.get(Constants.WEEKDAY).get(0));
 
             if (weekday_real >= weekday) {
-                day2 = day = day + weekday_real - weekday;
+                endTimeDay = startTimeDay = startTimeDay + weekday_real - weekday;
 
             } else {
-                day2 = day = day + 7 - weekday + weekday_real;
+                endTimeDay = startTimeDay = startTimeDay + 7 - weekday + weekday_real;
                 if (timeComponent.timeKeywords.get(Constants.FUTURE).contains("next")) {
-                    day2 = day = day - 7;
+                    endTimeDay = startTimeDay = startTimeDay - 7;
                 } else if (timeComponent.timeKeywords.get(Constants.PAST).contains("last")) {
-                    day2 = day = day + 7;
+                    endTimeDay = startTimeDay = startTimeDay + 7;
                 }
                 weekday = weekday_real;
             }
@@ -488,9 +488,9 @@ public class TimeParser {
     private void doInNext() {
         if (!timeComponent.timeKeywords.get(Constants.IN_NEXT).isEmpty() && !timeComponent.timeKeywords.get(Constants.IN_NEXT2).isEmpty()) {
             if (timeComponent.timeKeywords.get(Constants.IN_NEXT2).get(0).contains("m")) {
-                minute = minute + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT).get(0)));
+                startTimeMinute = startTimeMinute + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT).get(0)));
             } else if (timeComponent.timeKeywords.get(Constants.IN_NEXT2).get(0).contains("h")) {
-                hour = hour + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT).get(0)));
+                startTimeHour = startTimeHour + Integer.parseInt(String.valueOf(timeComponent.timeKeywords.get(Constants.IN_NEXT).get(0)));
             }
         }
     }
@@ -516,16 +516,16 @@ public class TimeParser {
 
         }
 
-        time.add(Calendar.DAY_OF_MONTH, day - time.get(Calendar.DAY_OF_MONTH));
-        time.add(Calendar.HOUR_OF_DAY, hour - time.get(Calendar.HOUR_OF_DAY));
-        time.add(Calendar.MINUTE, minute - time.get(Calendar.MINUTE));
-        time.add(Calendar.SECOND, second - time.get(Calendar.SECOND));
+        time.add(Calendar.DAY_OF_MONTH, startTimeDay - time.get(Calendar.DAY_OF_MONTH));
+        time.add(Calendar.HOUR_OF_DAY, startTimeHour - time.get(Calendar.HOUR_OF_DAY));
+        time.add(Calendar.MINUTE, startTimeMinute - time.get(Calendar.MINUTE));
+        time.add(Calendar.SECOND, startTimeSecond - time.get(Calendar.SECOND));
 
 
-        time2.add(Calendar.DAY_OF_MONTH, day2 - time.get(Calendar.DAY_OF_MONTH));
-        time2.set(Calendar.HOUR_OF_DAY, hour2);
-        time2.set(Calendar.MINUTE, minute2);
-        time2.set(Calendar.SECOND, second2);
+        time2.add(Calendar.DAY_OF_MONTH, endTimeDay - time.get(Calendar.DAY_OF_MONTH));
+        time2.set(Calendar.HOUR_OF_DAY, endTimeHour);
+        time2.set(Calendar.MINUTE, endTimeMinute);
+        time2.set(Calendar.SECOND, endTimeSecond);
 
 
         System.out.println(time + "  " + time2);
@@ -537,25 +537,25 @@ public class TimeParser {
         } else {
             //ZJ - to print 2 time like from 12:00 to 13:00
             if (timeComponent.timeKeywords.get(Constants.AMPM_PREV2).isEmpty() || (timeComponent.timeKeywords.get(Constants.DIGIT).size() > 1 && !timeComponent.containsColon()) || timeComponent.timeKeywords.get(Constants.DIGIT).size() > 2)
-                ;//timeComponent.timeKeywords.get(Constants.DIGIT).clear();
+                timeComponent.timeKeywords.get(Constants.DIGIT).clear();
             return new long[]{time.getTimeInMillis(), time2.getTimeInMillis()};
         }
     }
 
     private void getCurrentTime() {
         Calendar cal = Calendar.getInstance();
-        day2 = day = cal.get(Calendar.DAY_OF_MONTH);
-        hour2 = hour = cal.get(Calendar.HOUR_OF_DAY);
+        endTimeDay = startTimeDay = cal.get(Calendar.DAY_OF_MONTH);
+        endTimeHour = startTimeHour = cal.get(Calendar.HOUR_OF_DAY);
 
-        minute2 = minute = cal.get(Calendar.MINUTE);
-        second2 = second = cal.get(Calendar.SECOND);
-        weekday2 = weekday = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        endTimeMinute = startTimeMinute = cal.get(Calendar.MINUTE);
+        endTimeSecond = startTimeSecond = cal.get(Calendar.SECOND);
+        weekendTimeDay = weekday = cal.get(Calendar.DAY_OF_WEEK) - 1;
 
         if (weekday == 0)
             weekday = 7;
 
-        if (weekday2 == 0)
-            weekday2 = 7;
+        if (weekendTimeDay == 0)
+            weekendTimeDay = 7;
 
     }
 
