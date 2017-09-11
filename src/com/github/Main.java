@@ -10,7 +10,7 @@ import static com.github.StringUtils.normalize;
 public class Main {
 
     public static void main(String[] args) {
-        String message2 = "Meet tomorrow?";
+        String message2 = "Meet at 9 am tomorrow?";
         TimeComponent timeComponent = new TimeComponent();
 
         TimeParser tp = new TimeParser();

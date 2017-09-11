@@ -151,8 +151,10 @@ public class TimeComponent {
 
     public void addTimeKeyword(String key, String value){
         System.out.println(key + value);
-        timeExpressionString = timeExpressionString + value + " ";
-        System.out.println("TES" + timeExpressionString);
+        if (!timeExpressionString.contains(value)) {
+            timeExpressionString = timeExpressionString + value + " ";
+            System.out.println("TES" + timeExpressionString);
+        }
         ArrayList<String> keywordList = timeKeywords.get(key);
         keywordList.add(value);
     }
