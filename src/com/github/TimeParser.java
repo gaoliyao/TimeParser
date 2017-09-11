@@ -522,7 +522,7 @@ public class TimeParser {
         time.add(Calendar.SECOND, startTimeSecond - time.get(Calendar.SECOND));
 
 
-        time2.add(Calendar.DAY_OF_MONTH, endTimeDay - time.get(Calendar.DAY_OF_MONTH));
+        time2.add(Calendar.DAY_OF_MONTH, endTimeDay + 1 - time.get(Calendar.DAY_OF_MONTH));
         time2.set(Calendar.HOUR_OF_DAY, endTimeHour);
         time2.set(Calendar.MINUTE, endTimeMinute);
         time2.set(Calendar.SECOND, endTimeSecond);
