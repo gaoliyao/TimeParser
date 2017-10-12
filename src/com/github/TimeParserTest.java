@@ -21,23 +21,28 @@ import java.util.TimeZone;
 public class TimeParserTest {
     @Test
     public void testTimeParser(){
-        File file = new File("TimeParserTestFile.txt");
+        File file = new File("TimeParserUnitTest.txt");
         ArrayList<String> strArr = parseText(file);
 
         //Get current time/date
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        System.out.println("\t" + dateFormat.format(new Date()));
 
         for(String str: strArr){
+            str = str.trim();
             System.out.println("\t" + str);
-            System.out.println("result: " + getFormattedDate(str.trim()) + "\n");
+            System.out.println("result: " + getFormattedDate(str) + "\n");
         }
     }
+
+    /**
+     * Retrieves the date given the text message string
+     * @param str text message string
+     * @return formatted date
+     */
     public String getFormattedDate(String str){
 
         TimeParser tp = new TimeParser();
         long[] time = tp.GetInput(str);
-        System.out.println(time[0]);
         Date date0 = new Date(time[0]); // *1000 is to convert seconds to milliseconds
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z"); // the format of your date
         sdf.setTimeZone(TimeZone.getTimeZone("GMT-4")); // give a timezone reference for formatting (see comment at the bottom
@@ -45,6 +50,12 @@ public class TimeParserTest {
         return formattedDate;
 
     }
+
+    /**
+     * Parses the test file to return an arraylist of the lines
+     * @param file text file with the test cases
+     * @return arraylist with lines of the test file
+     */
     public ArrayList<String> parseText(File file){
 
         ArrayList<String> strArr = new ArrayList<String>();

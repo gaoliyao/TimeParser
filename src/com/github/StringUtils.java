@@ -5,13 +5,18 @@ import java.util.regex.Pattern;
 
 
 /**
- * Created by mars on 9/5/17.
+ *
+ * @author mars
  */
 public class StringUtils {
+    /**
+     * Splits the sentence in to an arraylist of words
+     * @param sentence Sentence to split
+     * @return Arraylist of words in sentence
+     */
     public static ArrayList<String> split(String sentence) {
         String words = "";
         ArrayList<String> wordList = new ArrayList<>();
-
         for (int i = 0; i < sentence.length(); i++) {
             if (sentence.charAt(i) == ' ' || i == sentence.length() - 1) {
                 if (!words.equals("") || i == sentence.length() - 1) {
@@ -29,7 +34,11 @@ public class StringUtils {
         return wordList;
     }
 
-
+    /**
+     * Converts weekday strings to integer values
+     * @param Weekday weekday string to convert to int
+     * @return weekday as an integer
+     */
     public static int weekdayToInteger(String Weekday) {
         if (Weekday.toLowerCase().equals("monday") || Weekday.toLowerCase().contains("mon"))
             return 1;
@@ -49,6 +58,11 @@ public class StringUtils {
             return -1;
     }
 
+    /**
+     * Converts number strings to integers
+     * @param str number string
+     * @return integer representation of the given
+     */
     public static String stringToInteger(String str) {
         if (str.toLowerCase().equals("one"))
             return "1";
@@ -78,12 +92,16 @@ public class StringUtils {
             return "-1";
     }
 
-
+    /**
+     * Normalizes the sentence to make it more parsable
+     * @param sentence sentence to normalize
+     * @return normalized sentence
+     */
     public static String normalize(String sentence) {
         String normalized_sentence1 = "";
         String normalized_sentence2 = "";
         String normalized_sentence3 = "";
-
+        sentence = sentence.trim();
         for (int i = 0; i < sentence.length(); i++) {
             if (isTemporalInteger("" + sentence.charAt(i)) && (i - 1) >= 0
                     && sentence.charAt(i - 1) != ' '
@@ -120,7 +138,11 @@ public class StringUtils {
         return normalized_sentence3;
     }
 
-
+    /**
+     * Checks if string is a temporal integer
+     * @param str string to check
+     * @return True if string is temporal integer, False otherwise
+     */
     public static boolean isTemporalInteger(String str) {
         if (Pattern.compile("^[-\\+]?[\\d]*$").matcher(str).matches()) {
             int time = Integer.parseInt(str);
@@ -129,10 +151,22 @@ public class StringUtils {
         return false;
     }
 
+    /**
+     * Checks if the content of two strings are equivalent (ignores casing)
+     * @param Str first string to check
+     * @param word second string to check
+     * @return True if both values are the same, False otherwise
+     */
     public static boolean is(String Str, String word) {
         return word.toLowerCase().equals(Str.toLowerCase());
     }
 
+    /**
+     * Checks if word is contained in given array
+     * @param Str string array to check
+     * @param word string to check
+     * @return True if word is in array, False otherwise
+     */
     public static boolean contain(String[] Str, String word) {
         for (String aStr : Str) {
             if (word.toLowerCase().equals(aStr.toLowerCase()))

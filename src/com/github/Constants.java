@@ -1,9 +1,13 @@
 package com.github;
 
 /**
- * Created by mars on 9/5/17.
+ * All the string constants necessary for time parsing
+ *
+ * @author mars
  */
 public class Constants {
+
+    //Values for timeKeywords Arraylist
     public static String[] KEYWORDS_WEEKEND = {"weekend"};
     public static String[] DURATION = {"day", "week", "month", "year"};
     public static String[] KEYWORD_WEEKDAY = {"Monday", "Tuesday",
@@ -20,7 +24,7 @@ public class Constants {
     public static String AT = "at";
     public static String[] PUNCTUATION = {"!", ",", ".", "?", "-"};
 
-
+    //Keys for timeKeywords ArrayList
     public static final String WEEKDAY = "weekday";
     public static final String WEEKEND = "weekend";
     public static final String EPOCH = "epoch";

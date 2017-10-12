@@ -10,7 +10,8 @@ import static com.github.StringUtils.stringToInteger;
 import static com.github.StringUtils.contain;
 
 /**
- * Created by mars on 9/5/17.
+ * Represents the time component of the text string
+ * @author mars
  */
 public class TimeComponent {
     // 0 : digit
@@ -25,9 +26,15 @@ public class TimeComponent {
 
     String sentence = "";
     public static String timeExpressionString = "";
+    public static HashMap<String, ArrayList<String>> timeKeywords = new HashMap<>();
+    public static int colonCount;
+    public static String[] colonPosition = {"", "", "", "", "", ""};
 
-
+    /**
+     * Initializes the timeKeywords arrayList such that each key points to an empty arraylist
+     */
     TimeComponent(){
+        timeExpressionString = "";
         timeKeywords.put(Constants.WEEKDAY, new ArrayList<String>());
         timeKeywords.put(Constants.WEEKEND, new ArrayList<String>());
         timeKeywords.put(Constants.EPOCH, new ArrayList<String>());
@@ -47,7 +54,12 @@ public class TimeComponent {
         timeKeywords.put(Constants.IN_NEXT2, new ArrayList<String>());
     }
 
+    /**
+     * Looks for temporal words in the given sentence and adds them to timeKeywords
+     * @param sentence The text string containing potential temporal keywords
+     */
     public void extractTemporalKeywords(String sentence) {
+
         this.sentence = sentence;
         if (sentence.isEmpty())
             return;
@@ -92,13 +104,13 @@ public class TimeComponent {
                     addTimeKeyword(Constants.AT, wordList.get(i));
                     addTimeKeyword(Constants.AT_NEXT, wordList.get(i + 1));
                 }
-            } else if (isWordBy(wordList.get(i)) && (i + 1) < wordList.size() && wordList.get(i + 1) != null) {
+            } else if (isWordBy(wordList.get(i)) && (i + 1) < wordList.size()
+                    && wordList.get(i + 1) != null) {
                 if (isTemporalInteger(wordList.get(i + 1))) {
                     addTimeKeyword(Constants.BY, wordList.get(i));
                     addTimeKeyword(Constants.BY_NEXT, wordList.get(i + 1));
                 }
             } else if (isFutureWord(wordList.get(i))) {
-                System.out.println(Constants.FUTURE +" "+ wordList.get(i));
                 addTimeKeyword(Constants.FUTURE, wordList.get(i));
                 if (i + 1 <= wordList.size() - 1) {
                     if (isDuration(wordList.get(i + 1)))
@@ -143,111 +155,199 @@ public class TimeComponent {
         }
         colonCount = count;
     }
-    public static int colonCount;
-    public static String[] colonPosition = {"", "", "", "", "", ""};
-    public static HashMap<String, ArrayList<String>> timeKeywords = new HashMap<>();
 
 
 
+    /**
+     * Adds keyword to timeExpressionString and timeKeywords
+     * @param key
+     * @param value
+     */
     public void addTimeKeyword(String key, String value){
-        System.out.println(key + value);
         if (!timeExpressionString.contains(value)) {
             timeExpressionString = timeExpressionString + value + " ";
-            System.out.println("TES" + timeExpressionString);
         }
-        ArrayList<String> keywordList = timeKeywords.get(key);
-        keywordList.add(value);
+        timeKeywords.get(key).add(value);
     }
-
-
-    public boolean isUpperAlpha(char c) {
-        return 'A' <= c && c <= 'Z';
-    }
-
+    /**
+     * Checks if s is a colon
+     * @param s string to check
+     * @return True if is a colon, False otherwise
+     */
     public boolean isColon(String s) {
         return s.equals(Constants.KEYWORD_COLON);
     }
 
+    /**
+     * Checks if s is "in"
+     * @param s string to check
+     * @return True if is "in", False otherwise
+     */
     public boolean isWordIn(String s) {
         return is(Constants.IN, s);
     }
 
+    /**
+     * Checks if s is a word associated with the future
+     * @param s string to check
+     * @return True if is a future word, False otherwise
+     */
     public boolean isFutureWord(String s) {
         return contain(Constants.KEYWORDS_FUTURE, s);
     }
 
+    /**
+     * Checks if s is a word associated with the past
+     * @param s string to check
+     * @return True if is a past word, False otherwise
+     */
     public boolean isPastWord(String s) {
         return contain(Constants.KEYWORDS_PAST, s);
     }
 
+    /**
+     * Checks if s is a word associated with duration
+     * @param s string to check
+     * @return True if is a duration word, False otherwise
+     */
     public boolean isDuration(String s) {
         return contain(Constants.DURATION, s);
     }
 
+    /**
+     * Checks if s is "at"
+     * @param s string to check
+     * @return True if is "at", False otherwise
+     */
     public boolean isWordAt(String s) {
         return is(Constants.AT, s);
     }
 
+    /**
+     * Checks if s is "by"
+     * @param s string to check
+     * @return True if is "by", False otherwise
+     */
     public boolean isWordBy(String s) {
         return is(Constants.BY, s);
     }
 
+    /**
+     * Checks if s is a word associated with the future
+     * @param s string to check
+     * @return True if is an ampm word, False otherwise
+     */
     public boolean isAmPm(String s) {
         return contain(Constants.KEYWORDS_AMPM, s);
     }
 
+    /**
+     * Checks if s is a weekday
+     * @param s string to check
+     * @return True if is a weekday word, False otherwise
+     */
     public boolean isWeekday(String s) {
         return contain(Constants.KEYWORD_WEEKDAY, s);
     }
 
+    /**
+     * Checks if s is a weekend
+     * @param s string to check
+     * @return True if is a weekend word, False otherwise
+     */
     public boolean isWeekend(String s) {
         return contain(Constants.KEYWORDS_WEEKEND, s);
     }
 
-    public boolean isEpoch(String str) {
-        return contain(Constants.KEYWORDS_EPOCH, str);
+    /**
+     * Checks if s is a weekday
+     * @param s string to check
+     * @return True if is an epoch word, False otherwise
+     */
+    public boolean isEpoch(String s) {
+        return contain(Constants.KEYWORDS_EPOCH, s);
     }
 
+    /**
+     * Checks if timeKeywords contains an epoch keyword
+     * @return True if contains an epoch word, False otherwise
+     */
     public boolean containsEpoch() {
         return !timeKeywords.get(Constants.EPOCH).isEmpty();
     }
 
+    /**
+     * Checks if timeKeywords contains a weekday keyword
+     * @return True if contains a weekday word, False otherwise
+     */
     public boolean containsWeekday() {
         return !timeKeywords.get(Constants.WEEKDAY).isEmpty();
     }
 
+    /**
+     * Checks if timeKeywords contains a weekend keyword
+     * @return True if contains a weekend word, False otherwise
+     */
     public boolean containsWeekend() {
         return !timeKeywords.get(Constants.WEEKEND).isEmpty();
     }
 
+    /**
+     * Checks if timeKeywords contains temporal digits
+     * @return True if contains temporal digits, False otherwise
+     */
     public boolean containsTemporalDigits() {
 
         return !timeKeywords.get(Constants.DIGIT).isEmpty();
     }
 
+    /**
+     * Checks if timeKeywords contains past keywords
+     * @return True if contains a past word, False otherwise
+     */
     public boolean containsPast() {
         return !timeKeywords.get(Constants.PAST).isEmpty();
     }
 
+    /**
+     * Checks if timeKeywords contains future keywords
+     * @return True if contains a future word, False otherwise
+     */
     public boolean containsFuture() {
         return !timeKeywords.get(Constants.FUTURE).isEmpty();
     }
 
+    /**
+     * Checks if timeKeywords contains ampm keywords
+     * @return True if contains an ampm word, False otherwise
+     */
     public boolean containsAmPm() {
         return !timeKeywords.get(Constants.AMPM).isEmpty();
     }
 
+    /**
+     * Checks if timeKeywords contains colon
+     * @return True if contains a colon, False otherwise
+     */
     public boolean containsColon() {
         return colonCount == 1 && !colonPosition[0].equals("")
                 && !colonPosition[1].equals("");
     }
 
+    /**
+     * Checks if timeKeywords contains temporal keywords
+     * @return True if contains a temporal keyword, False otherwise
+     */
     public boolean containsTime() {
         return containsEpoch() || containsPast() || containsFuture()
                 || containsAmPm() || containsWeekday() || containsWeekend()
                 || containsTemporalDigits();
     }
 
+    /**
+     * Checks if timeKeywords contains am keywords
+     * @return True if is an am word, False otherwise
+     */
     public boolean isAM() {
         if (timeKeywords.containsKey(Constants.AMPM)){
             String str = timeKeywords.get(Constants.AMPM).get(0);
@@ -255,7 +355,10 @@ public class TimeComponent {
         }
         return false;
     }
-
+    /**
+     * Checks if timeKeywords contains pm keywords
+     * @return True if is a pm word, False otherwise
+     */
     public boolean isPM() {
         if (timeKeywords.containsKey(Constants.AMPM)){
             String str = timeKeywords.get(Constants.AMPM).get(0);
