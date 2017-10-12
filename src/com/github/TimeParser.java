@@ -1,13 +1,12 @@
 package com.github;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.regex.Pattern;
 
 import static com.github.StringUtils.*;
 
 /**
- * Created by mars on 8/31/17.
+ *
+ * @author mars
  */
 public class TimeParser {
     // FROM 00:00 TO 23:59
@@ -27,6 +26,9 @@ public class TimeParser {
 
     public TimeComponent timeComponent;
 
+    /**
+     * Initializes all variables to zero
+     */
     TimeParser() {
         startTimeDay = 0;
         startTimeHour = 0;
@@ -43,9 +45,9 @@ public class TimeParser {
         hasCalDigit = false;
     }
 
-
-
-
+    /**
+     * Retrieves the date and time and places them in
+     */
     private void getDateAndTime() {
 
         getCurrentTime();
@@ -92,6 +94,9 @@ public class TimeParser {
         }
     }
 
+    /**
+     * Finds epoch keywords and adjusts the variables accordingly
+     */
     private void doEpoch() {
 
         String epoch = (String) timeComponent.timeKeywords.get("epoch").get(0);
@@ -153,8 +158,9 @@ public class TimeParser {
 
     }
 
-    // Have Digits, but no colons:
-    // "3pm", "at 6", "in 20 startTimeMinutes"
+    /**
+     * Sets the time variables when time entries do not have colons
+     */
     private void doNoColons() {
 
         if (!timeComponent.timeKeywords.get(Constants.AMPM).isEmpty()) {
@@ -168,7 +174,6 @@ public class TimeParser {
                 if (!timeComponent.timeKeywords.get(Constants.BY_NEXT).isEmpty()) {
                     doByNext();
                 }
-
                 // "in 20 startTimeMinutes"
                 else if (!timeComponent.timeKeywords.get(Constants.IN).isEmpty()) {
                     doInNext();
@@ -210,14 +215,27 @@ public class TimeParser {
 
     }
 
+    /**
+     * Sets the time variables when keyword at is in the sentence
+     */
     private void doAtNext() {
+
         String hour_real = timeComponent.timeKeywords.get(Constants.AT_NEXT).get(0);
-        setTimeWithDight(hour_real);
+        System.out.println(hour_real);
+        setTimeWithDigit(hour_real);
 
     }
 
+    /**
+     * Sets the time variables when keyword by is in the sentence
+     */
     private void doByNext() {
+
+        String hour_real = timeComponent.timeKeywords.get(Constants.BY_NEXT).get(0);
+        setTimeWithDigit(hour_real);
+        /*
         int startTimeHour_real = Integer.parseInt((String)timeComponent.timeKeywords.get(Constants.BY_NEXT).get(0));
+        System.out.println("startTime " + startTimeHour_real +" " + startTimeHour);
         if (startTimeHour > startTimeHour_real) {
             startTimeHour = startTimeHour_real + 12;
         } else {
@@ -225,22 +243,30 @@ public class TimeParser {
         }
         startTimeMinute = 0;
         startTimeSecond = 0;
+        */
     }
 
+    /**
+     * Sets the time variables when times without colons with am or pm at is in the sentence
+     */
     private void doAmPmNoColons() {
         // Three cases: 3pm, 10am, 430pm, 1030 pm
         String ampmPrev = timeComponent.timeKeywords.get(Constants.AMPM_PREV).get(0);
-        setTimeWithDight(ampmPrev);
+        setTimeWithDigit(ampmPrev);
         if (timeComponent.isPM()) {
             startTimeHour += 12;
         }
         if (!timeComponent.timeKeywords.get(Constants.AMPM_PREV2).isEmpty()) {
             String ampmPrev2 = (String)timeComponent.timeKeywords.get(Constants.AMPM_PREV2).get(0);
-            setTimeWithDight(ampmPrev2);
+            setTimeWithDigit(ampmPrev2);
         }
     }
 
-    private void setTimeWithDight(String ampmPrev) {
+    /**
+     * Sets time when time is fully expressed in number
+     * @param ampmPrev string with time digits
+     */
+    private void setTimeWithDigit(String ampmPrev) {
         switch (ampmPrev.length()) {
             case 1:
                 if(startTimeHour > Integer.parseInt(ampmPrev)) {
@@ -264,7 +290,6 @@ public class TimeParser {
                 break;
 
             case 3:
-
                 if (Integer.parseInt(ampmPrev) % 100 < 60) {
                     if(startTimeHour > Integer.parseInt(ampmPrev) / 100) {
                         startTimeHour = (Integer.parseInt(ampmPrev) / 100) + 12;
@@ -302,7 +327,9 @@ public class TimeParser {
         }
     }
 
-
+    /**
+     * Sets the time when time component has one colon
+     */
     private void doOneColon() {
         startTimeHour = Integer.parseInt(timeComponent.colonPosition[0]);
         startTimeMinute = Integer.parseInt(timeComponent.colonPosition[1]);
@@ -327,6 +354,9 @@ public class TimeParser {
         }
     }
 
+    /**
+     * Sets time when time has two colons
+     */
     private void doTwoColons() {
         startTimeHour = Integer.parseInt(timeComponent.colonPosition[0]);
         startTimeMinute = Integer.parseInt(timeComponent.colonPosition[1]);
@@ -337,6 +367,9 @@ public class TimeParser {
         endTimeSecond = 0;
     }
 
+    /**
+     * Resets the time to default
+     */
     private void setDayHourMinuteSeconds() {
         startTimeHour = 0;
         startTimeMinute = 0;
@@ -347,6 +380,9 @@ public class TimeParser {
         endTimeSecond = 59;
     }
 
+    /**
+     * Sets time when a future word is in the sentence
+     */
     private void doFuture() {
         String futureFirst = (String)timeComponent.timeKeywords.get(Constants.FUTURE).get(0);
         String futureSecond = "";
@@ -391,6 +427,9 @@ public class TimeParser {
         setDayHourMinuteSeconds();
     }
 
+    /**
+     * Sets time when a past word is in the sentence
+     */
     private void doPast() {
         String past = (String) timeComponent.timeKeywords.get(Constants.PAST).get(0);
         if (past.equals("last") && (timeComponent.containsWeekday() || timeComponent.containsWeekend())) {
@@ -436,6 +475,9 @@ public class TimeParser {
         setDayHourMinuteSeconds();
     }
 
+    /**
+     * Sets time when a weekend word is in the sentence
+     */
     private void doWeekend() {
         if (timeComponent.timeKeywords.get(Constants.WEEKEND).size() == 1) {
             int weekday_real = 6;
@@ -459,6 +501,9 @@ public class TimeParser {
         setDayHourMinuteSeconds();
     }
 
+    /**
+     * Sets time when a weekday word is in the sentence
+     */
     private void doWeekdays() {
         if (timeComponent.timeKeywords.get(Constants.WEEKDAY).size() == 1) {
             int weekday_real = weekdayToInteger(timeComponent.timeKeywords.get(Constants.WEEKDAY).get(0));
@@ -485,6 +530,9 @@ public class TimeParser {
 
     }
 
+    /**
+     * Sets time when the next keyword is in the sentence
+     */
     private void doInNext() {
         if (!timeComponent.timeKeywords.get(Constants.IN_NEXT).isEmpty() && !timeComponent.timeKeywords.get(Constants.IN_NEXT2).isEmpty()) {
             if (timeComponent.timeKeywords.get(Constants.IN_NEXT2).get(0).contains("m")) {
@@ -495,6 +543,11 @@ public class TimeParser {
         }
     }
 
+    /**
+     * Retrieves the time in the message
+     * @param message
+     * @return Calendar object of the time in String message
+     */
     public long[] GetInput(String message) {
 
         //todo:
@@ -508,12 +561,12 @@ public class TimeParser {
         try {
 
             timeComponent.extractTemporalKeywords(message);
-            System.out.println("!!!" + timeComponent.timeExpressionString);
-            System.out.println("!!!" + timeComponent.timeKeywords);
+            System.out.println("Time Expression String: " + timeComponent.timeExpressionString);
+            System.out.println("timeKeyword Arraylist: " + timeComponent.timeKeywords);
             getDateAndTime();
 
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            System.out.println("Exception occured");
         }
 
         time.add(Calendar.DAY_OF_MONTH, startTimeDay - time.get(Calendar.DAY_OF_MONTH));
@@ -528,8 +581,6 @@ public class TimeParser {
         time2.set(Calendar.SECOND, endTimeSecond);
 
 
-        System.out.println(time + "  " + time2);
-
         if (!timeComponent.containsTime()) {
             return new long[]{-1, -1};
         } else if (timeComponent.containsTemporalDigits() && timeComponent.timeKeywords.get(Constants.DIGIT).size() == 1 && timeComponent.timeKeywords.get(Constants.WEEKDAY).isEmpty() && timeComponent.timeKeywords.get(Constants.FUTURE).isEmpty() && timeComponent.timeKeywords.get(Constants.PAST).isEmpty()) {
@@ -542,6 +593,9 @@ public class TimeParser {
         }
     }
 
+    /**
+     * Retrieves the time at which the message was sent/received
+     */
     private void getCurrentTime() {
         Calendar cal = Calendar.getInstance();
         endTimeDay = startTimeDay = cal.get(Calendar.DAY_OF_MONTH);
