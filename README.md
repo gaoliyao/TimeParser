@@ -1,6 +1,6 @@
 # TimeParser
 # TimeParser 
-[TP](https://github.com/gaoliyao/TimeParser_old/blob/master/clock.png")
+![](https://github.com/gaoliyao/TimeParser_old/blob/master/clock.png")
 
  According to research, users spend their time on social application in majority, receiving and texting messages. To understand the messages is absolutely important for the app developers. Time, as an essential concept in life, plays an important role in people's conversation. Nearly 30% of conversation have time component embedded in it. 
  
